@@ -38,8 +38,8 @@ $properties = $MSjsonOBJ.values.properties
 $regions = $properties | where-object { $_.region -match $regionFilter -OR $_.region -eq ""}
 
 #save files using reg ex to filter ipv4 and ipv6 to their own files if needed
-$regions.addressPrefixes | out-file "$exportlocation\$($time)_filtered_region_$($regionFilter)_all_IPs.txt"
+$regions.addressPrefixes | sort | get-unique |  out-file "$exportlocation\$($time)_filtered_region_$($regionFilter)_all_IPs.txt"
 
-$regions.addressPrefixes -match '\.' | out-file "$exportlocation\$($time)_filtered_region_$($regionFilter)_v4_IPs.txt"
+$regions.addressPrefixes -match '\.' | sort | get-unique |  out-file "$exportlocation\$($time)_filtered_region_$($regionFilter)_v4_IPs.txt"
 
-$regions.addressPrefixes -match '\:' | out-file "$exportlocation\$($time)_filtered_region_$($regionFilter)_v6_IPs.txt"
+$regions.addressPrefixes -match '\:' | sort | get-unique |  out-file "$exportlocation\$($time)_filtered_region_$($regionFilter)_v6_IPs.txt"
