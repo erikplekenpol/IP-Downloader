@@ -19,11 +19,12 @@ $exportlocation = "C:\temp\"
 #region filter
 $regionFilter = "canada"
 
-#grab URI from txt file
-$DLURI = Invoke-WebRequest -uri "https://raw.githubusercontent.com/thedxt/IP-Downloader/main/URIs/Azure-JSON-URI.txt"
+#grab URI from Microsoft webpage
+$LocationURI = Invoke-WebRequest -uri "https://www.microsoft.com/en-us/download/confirmation.aspx?id=56519"
+$DLURI = $LocationURI.Links | Where-Object {$_.InnerText -Like "click here to download manually" }
 
 #download the JSON file from MS
-$MSjsonDL = Invoke-WebRequest -Uri $DLURI.Content
+$MSjsonDL = Invoke-WebRequest -Uri $DLURI.href
 
 #getting date
 $time = get-date -f yyyy_MMM_dd_hhmm_tt
